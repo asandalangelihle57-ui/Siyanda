@@ -1,0 +1,8 @@
+{
+  "name": "Remix Remix Asanda",
+  "description": "Imported from GitHub: asandalangelihle57-ui/Asanda",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
