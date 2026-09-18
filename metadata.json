@@ -1,6 +1,6 @@
 {
   "name": "Remix Remix Asanda",
-  "description": "Imported from GitHub: asandalangelihle57-ui/Asanda",
+  "description": "Centralised digital reporting, funding requests, payment processing, schedule compliance, and audit oversight for 26 Public Entities and 6 NPOs.",
   "requestFramePermissions": [],
   "majorCapabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"

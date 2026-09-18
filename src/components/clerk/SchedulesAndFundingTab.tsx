@@ -44,8 +44,8 @@ export const SchedulesAndFundingTab: React.FC<SchedulesAndFundingTabProps> = ({
   const [scheduleFilter, setScheduleFilter] = useState<'all' | 'pending' | 'submitted'>('all');
 
   const filteredSchedules = orgSchedules.filter((sch) => {
-    if (scheduleFilter === 'pending') return sch.status !== 'Completed';
-    if (scheduleFilter === 'submitted') return sch.status === 'Completed';
+    if (scheduleFilter === 'pending') return sch.status !== 'Approved' && sch.status !== 'Submitted';
+    if (scheduleFilter === 'submitted') return sch.status === 'Approved' || sch.status === 'Submitted';
     return true;
   });
 
@@ -175,22 +175,32 @@ export const SchedulesAndFundingTab: React.FC<SchedulesAndFundingTabProps> = ({
                       </td>
                       <td className="py-3.5 px-3 whitespace-nowrap">
                         <span
-                          className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold border ${risk.badgeColor}`}
+                          className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold border ${risk.badgeClass}`}
                         >
-                          <span className={`w-2 h-2 rounded-full ${risk.dotColor}`} />
-                          {risk.level}
+                          <span className={`w-2 h-2 rounded-full ${risk.riskLevel === 'High' ? 'bg-rose-600' : risk.riskLevel === 'Medium' ? 'bg-amber-600' : 'bg-emerald-600'}`} />
+                          {risk.riskLevel}
                         </span>
                       </td>
                       <td className="py-3.5 px-3 whitespace-nowrap">
-                        {sch.status === 'Completed' ? (
+                        {sch.status === 'Approved' || sch.status === 'Submitted' ? (
                           <span className="inline-flex items-center gap-1 text-emerald-800 font-bold bg-emerald-50 border border-emerald-300 px-2 py-0.5 rounded text-[11px]">
                             <Check className="w-3.5 h-3.5 text-emerald-600" />
-                            Submitted & Met
+                            {sch.status === 'Approved' ? 'Approved & Met' : 'Submitted'}
                           </span>
                         ) : sch.status === 'Under Review' ? (
                           <span className="inline-flex items-center gap-1 text-sky-800 font-bold bg-sky-50 border border-sky-300 px-2 py-0.5 rounded text-[11px]">
                             <Clock className="w-3.5 h-3.5 text-sky-600" />
                             Under Review
+                          </span>
+                        ) : sch.status === 'Overdue' ? (
+                          <span className="inline-flex items-center gap-1 text-rose-800 font-bold bg-rose-50 border border-rose-300 px-2 py-0.5 rounded text-[11px]">
+                            <AlertTriangle className="w-3.5 h-3.5 text-rose-600" />
+                            Overdue
+                          </span>
+                        ) : sch.status === 'Extension Granted' ? (
+                          <span className="inline-flex items-center gap-1 text-purple-800 font-bold bg-purple-50 border border-purple-300 px-2 py-0.5 rounded text-[11px]">
+                            <Clock className="w-3.5 h-3.5 text-purple-600" />
+                            Extension Granted
                           </span>
                         ) : (
                           <span className="inline-flex items-center gap-1 text-slate-700 font-bold bg-slate-100 border border-slate-300 px-2 py-0.5 rounded text-[11px]">
@@ -199,16 +209,16 @@ export const SchedulesAndFundingTab: React.FC<SchedulesAndFundingTabProps> = ({
                         )}
                       </td>
                       <td className="py-3.5 px-3 max-w-xs">
-                        {sch.submittedFileName ? (
+                        {sch.attachedFileName ? (
                           <div className="space-y-0.5">
                             <div className="flex items-center gap-1 text-emerald-900 font-medium">
                               <FileText className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                              <span className="truncate max-w-[140px]" title={sch.submittedFileName}>
-                                {sch.submittedFileName}
+                              <span className="truncate max-w-[140px]" title={sch.attachedFileName}>
+                                {sch.attachedFileName}
                               </span>
                             </div>
                             <div className="text-[10px] text-slate-500 font-mono">
-                              {sch.submittedDate} • {sch.submittedFileSize}
+                              {sch.submittedAt || 'Submitted'} • {sch.attachedFileSize || 'File'}
                             </div>
                           </div>
                         ) : (

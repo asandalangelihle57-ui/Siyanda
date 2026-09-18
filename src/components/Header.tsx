@@ -37,18 +37,18 @@ export const Header: React.FC<HeaderProps> = ({
   const unreadCount = notifications.filter(n => !n.isRead).length;
 
   return (
-    <header className="bg-emerald-950 text-white border-b border-emerald-800 shadow-md sticky top-0 z-40">
+    <header className="bg-blue-900 text-white border-b border-blue-800 shadow-md sticky top-0 z-40">
       {/* Main App Navigation Bar */}
       <div className="px-3 sm:px-4 py-2.5 flex items-center justify-between gap-4">
         <div className="flex items-center space-x-3">
-          <div className="bg-gradient-to-br from-amber-400 to-amber-600 px-2.5 py-2 rounded-lg text-emerald-950 shadow-inner flex items-center justify-center font-black tracking-tight text-base select-none">
+          <div className="bg-gradient-to-br from-amber-400 to-amber-600 px-2.5 py-2 rounded-lg text-blue-950 shadow-inner flex items-center justify-center font-black tracking-tight text-base select-none">
             DSAC
           </div>
           <div>
             <h1 className="font-bold text-sm sm:text-base tracking-tight text-white flex items-center gap-2">
               Public Entities Reporting System
             </h1>
-            <div className="text-xs font-semibold text-emerald-200 flex items-center gap-1.5 mt-0.5">
+            <div className="text-xs font-semibold text-blue-200 flex items-center gap-1.5 mt-0.5">
               <Building2 className="w-3.5 h-3.5 text-amber-400 shrink-0" />
               <span className="truncate max-w-xs sm:max-w-md">
                 {currentUser.entityName || 'Department of Sport, Arts and Culture (National Oversight)'}
@@ -58,22 +58,22 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Worker Name Display on Top Panel */}
-        <div className="hidden lg:flex items-center gap-2 bg-emerald-900/90 px-3.5 py-1.5 rounded-full border border-emerald-700/80 text-xs shadow-inner">
-          <span className="text-emerald-300 uppercase tracking-wider font-bold text-[10px]">
+        <div className="hidden lg:flex items-center gap-2 bg-blue-800/90 px-3.5 py-1.5 rounded-full border border-blue-700/80 text-xs shadow-inner">
+          <span className="text-blue-300 uppercase tracking-wider font-bold text-[10px]">
             Worker:
           </span>
           <span className="font-bold text-white flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             {currentUser.fullName}
           </span>
-          <span className="text-emerald-300/80 text-[11px] font-medium">
+          <span className="text-blue-200/80 text-[11px] font-medium">
             ({currentUser.roleTitle})
           </span>
         </div>
 
         <div className="flex items-center space-x-2 sm:space-x-3">
           {/* Active Reporting Period Indicator */}
-          <div className="hidden md:flex items-center gap-1.5 bg-emerald-900/60 border border-emerald-800 px-2.5 py-1.5 rounded-lg text-xs text-emerald-200">
+          <div className="hidden md:flex items-center gap-1.5 bg-blue-800/60 border border-blue-700 px-2.5 py-1.5 rounded-lg text-xs text-blue-200">
             <Calendar className="w-3.5 h-3.5 text-amber-400" />
             <span className="text-[11px] font-medium">Reporting Cycle: <strong className="text-white font-semibold">2025/2026 Q3</strong></span>
           </div>
@@ -82,7 +82,7 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="relative">
             <button
               onClick={() => setShowNotifMenu(!showNotifMenu)}
-              className="p-2 text-emerald-200 hover:text-white hover:bg-emerald-900 rounded-lg relative transition-colors cursor-pointer"
+              className="p-2 text-blue-200 hover:text-white hover:bg-blue-800 rounded-lg relative transition-colors cursor-pointer"
               aria-label="Statutory Notifications"
               title="Statutory Notifications and Compliance Alerts"
             >
@@ -147,26 +147,26 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="relative">
             <button
               onClick={() => setShowProfileModal(!showProfileModal)}
-              className="flex items-center gap-2 bg-emerald-900/90 hover:bg-emerald-800 border border-emerald-700/80 px-3 py-1.5 rounded-xl text-xs transition-colors cursor-pointer"
+              className="flex items-center gap-2 bg-blue-800/90 hover:bg-blue-700 border border-blue-700/80 px-3 py-1.5 rounded-xl text-xs transition-colors cursor-pointer"
               title="Worker Profile & Account Session"
             >
-              <div className="w-7 h-7 rounded-lg bg-amber-400 text-emerald-950 font-bold flex items-center justify-center text-xs shadow-sm">
+              <div className="w-7 h-7 rounded-lg bg-amber-400 text-blue-950 font-bold flex items-center justify-center text-xs shadow-sm">
                 {currentUser.avatarInitials}
               </div>
               <div className="text-left hidden md:block">
                 <div className="font-bold text-white text-xs leading-tight">{currentUser.fullName}</div>
-                <div className="text-[10px] text-emerald-300 truncate max-w-[140px]">{currentUser.roleTitle}</div>
+                <div className="text-[10px] text-blue-200 truncate max-w-[140px]">{currentUser.roleTitle}</div>
               </div>
-              <ChevronDown className="w-3.5 h-3.5 text-emerald-300" />
+              <ChevronDown className="w-3.5 h-3.5 text-blue-200" />
             </button>
 
             {/* Profile Dropdown / Modal */}
             {showProfileModal && (
               <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white border border-slate-300 text-slate-900 rounded-2xl shadow-2xl z-50 overflow-hidden text-xs animate-fadeIn">
                 {/* Profile Header */}
-                <div className="p-4 bg-emerald-950 text-white flex items-start justify-between border-b border-emerald-800">
+                <div className="p-4 bg-blue-900 text-white flex items-start justify-between border-b border-blue-800">
                   <div className="flex items-center gap-3">
-                    <div className="w-11 h-11 rounded-xl bg-amber-400 text-emerald-950 font-black text-sm flex items-center justify-center shadow-md">
+                    <div className="w-11 h-11 rounded-xl bg-amber-400 text-blue-950 font-black text-sm flex items-center justify-center shadow-md">
                       {currentUser.avatarInitials}
                     </div>
                     <div>
@@ -174,14 +174,14 @@ export const Header: React.FC<HeaderProps> = ({
                         {currentUser.fullName}
                         <BadgeCheck className="w-4 h-4 text-amber-400" />
                       </div>
-                      <div className="text-[11px] text-emerald-200 mt-0.5">{currentUser.roleTitle}</div>
-                      <div className="text-[10px] text-emerald-300/80 font-mono mt-0.5">{currentUser.email}</div>
+                      <div className="text-[11px] text-blue-200 mt-0.5">{currentUser.roleTitle}</div>
+                      <div className="text-[10px] text-blue-200/80 font-mono mt-0.5">{currentUser.email}</div>
                     </div>
                   </div>
 
                   <button
                     onClick={() => setShowProfileModal(false)}
-                    className="text-emerald-300 hover:text-white p-1 rounded-lg cursor-pointer"
+                    className="text-blue-200 hover:text-white p-1 rounded-lg cursor-pointer"
                   >
                     <X className="w-4 h-4" />
                   </button>

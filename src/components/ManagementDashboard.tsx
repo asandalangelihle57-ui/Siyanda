@@ -27,8 +27,10 @@ import {
   FileCheck,
   Lock,
   Unlock,
-  Scale
+  Scale,
+  ChevronDown
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { 
   PublicEntity, 
   NPO, 
@@ -93,6 +95,7 @@ export const ManagementDashboard: React.FC<ManagementDashboardProps> = ({
   const [selectedOrgFilter, setSelectedOrgFilter] = useState<'All' | 'Entities' | 'NPOs'>('All');
   const [fundingStatusFilter, setFundingStatusFilter] = useState<'All' | 'Pending Review' | 'Under Appeal' | 'Approved' | 'Rejected' | 'Paid'>('All');
   const [fundingCategoryFilter, setFundingCategoryFilter] = useState<string>('All');
+  const [isFundingRequestsCollapsed, setIsFundingRequestsCollapsed] = useState(false);
   const [showExpenditureTable, setShowExpenditureTable] = useState(false);
   const [scheduleRiskFilter, setScheduleRiskFilter] = useState<'All' | 'High' | 'Medium' | 'Low'>('All');
   const [accountStatusFilter, setAccountStatusFilter] = useState<'All' | 'Active' | 'Frozen'>('All');
@@ -585,18 +588,89 @@ export const ManagementDashboard: React.FC<ManagementDashboardProps> = ({
           </div>
 
           {/* Funding Requests Review & Approvals Register with Integrated Filters */}
-          <div className="bg-white border border-slate-300 rounded-xl p-4 sm:p-5 shadow-sm space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div>
-                <h3 className="text-base font-bold text-slate-900">Review Entity & NPO Funding Requests</h3>
-                <p className="text-xs text-slate-600">
+          <div className="bg-white border border-slate-300 rounded-xl p-4 sm:p-5 shadow-sm">
+            <div 
+              onClick={() => setIsFundingRequestsCollapsed(prev => !prev)}
+              className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 cursor-pointer select-none group"
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setIsFundingRequestsCollapsed(prev => !prev);
+                }
+              }}
+              aria-expanded={!isFundingRequestsCollapsed}
+            >
+              <div className="flex-1">
+                <div className="flex items-center gap-2.5 flex-wrap">
+                  <h3 className="text-base font-bold text-slate-900 group-hover:text-blue-800 transition-colors">
+                    Review Entity & NPO Funding Requests
+                  </h3>
+                  <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-800 border border-blue-200">
+                    {fundingRequests.length} Total
+                  </span>
+                  {pendingRequestsCount > 0 && (
+                    <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
+                      {pendingRequestsCount} Pending Action
+                    </span>
+                  )}
+                </div>
+                <p className="text-xs text-slate-600 mt-0.5">
                   Review statutory allocations, grant tranches, and project proposals. Approve to queue for payment, or reject with a formal reason.
                 </p>
               </div>
+
+              <div className="flex items-center gap-2 shrink-0">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsFundingRequestsCollapsed(prev => !prev);
+                  }}
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all cursor-pointer border border-slate-200 shadow-2xs"
+                >
+                  <span>{isFundingRequestsCollapsed ? 'Expand Requests' : 'Collapse Requests'}</span>
+                  <motion.div
+                    animate={{ rotate: isFundingRequestsCollapsed ? 0 : 180 }}
+                    transition={{ duration: 0.3, ease: 'easeInOut' }}
+                  >
+                    <ChevronDown className="w-4 h-4 text-slate-600" />
+                  </motion.div>
+                </button>
+              </div>
             </div>
 
-            {/* Filter Toolbar for Requests */}
-            <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg flex flex-wrap items-center gap-3">
+            <AnimatePresence initial={false}>
+              {!isFundingRequestsCollapsed && (
+                <motion.div
+                  key="funding-requests-collapse-body"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ 
+                    height: 'auto', 
+                    opacity: 1,
+                    transition: {
+                      height: { duration: 0.42, ease: [0.16, 1, 0.3, 1] },
+                      opacity: { duration: 0.28, delay: 0.06 }
+                    }
+                  }}
+                  exit={{ 
+                    height: 0, 
+                    opacity: 0,
+                    transition: {
+                      height: { duration: 0.32, ease: [0.16, 1, 0.3, 1] },
+                      opacity: { duration: 0.18 }
+                    }
+                  }}
+                  className="overflow-hidden space-y-4 pt-4"
+                >
+                  {/* Filter Toolbar for Requests - staggered reveal */}
+                  <motion.div
+                    initial={{ y: -8, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.3, delay: 0.1, ease: 'easeOut' }}
+                    className="p-3 bg-slate-50 border border-slate-200 rounded-lg flex flex-wrap items-center gap-3"
+                  >
               {/* Search Bar */}
               <div className="flex-1 min-w-[200px] relative">
                 <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -671,10 +745,15 @@ export const ManagementDashboard: React.FC<ManagementDashboardProps> = ({
                   Clear Filters
                 </button>
               )}
-            </div>
+            </motion.div>
 
-            {/* Funding Requests Table */}
-            <div className="overflow-x-auto">
+            {/* Funding Requests Table - smooth staggered entrance */}
+            <motion.div 
+              initial={{ y: -12, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.35, delay: 0.18, ease: 'easeOut' }}
+              className="overflow-x-auto"
+            >
               <table className="w-full text-left text-xs border-collapse">
                 <thead>
                   <tr className="border-b border-slate-300 bg-slate-100 text-slate-800 font-bold uppercase text-[11px]">
@@ -912,10 +991,13 @@ export const ManagementDashboard: React.FC<ManagementDashboardProps> = ({
                   })}
               </tbody>
             </table>
-          </div>
-        </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
+    </AnimatePresence>
+  </div>
+</div>
+)}
 
       {/* ========================================================================= */}
       {/* 2. ENTITY ACCOUNTS & FREEZE CONTROL (SERIOUS ALLEGATIONS / UNDER REVIEW)    */}

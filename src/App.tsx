@@ -56,8 +56,8 @@ import { AuditLogView } from './components/AuditLogView';
 import { InterDepartmentalChatView } from './components/InterDepartmentalChatView';
 
 export default function App() {
-  // Authentication State
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
+  // Authentication State: Must show login page first when running the system
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   // Application Data States
   const [users] = useState<User[]>(INITIAL_USERS);
@@ -694,7 +694,7 @@ export default function App() {
   const frozenEntitiesCount = entities.filter(e => e.isFrozen).length + npos.filter(n => n.isFrozen).length;
 
   return (
-    <div className="min-h-screen bg-slate-200 text-slate-900 flex flex-col font-sans selection:bg-emerald-600 selection:text-white">
+    <div className="h-screen flex flex-col overflow-hidden bg-slate-100 text-slate-900 font-sans selection:bg-blue-600 selection:text-white">
       {/* Official Government Header with Worker Name Banner, Details & Sign Out */}
       <Header
         currentUser={currentUser}
@@ -703,7 +703,7 @@ export default function App() {
         onSignOut={() => setIsAuthenticated(false)}
       />
 
-      {/* Main Body with Sidebar Navigation */}
+      {/* Main Body with Fixed Sidebar Navigation */}
       <div className="flex-1 flex overflow-hidden">
         <Sidebar
           activeTab={activeTab}
@@ -724,9 +724,9 @@ export default function App() {
           frozenEntitiesCount={frozenEntitiesCount}
         />
 
-        {/* Dynamic View Canvas */}
-        <main className="flex-1 overflow-y-auto bg-slate-200 p-2 sm:p-4">
-          {activeTab === 'dashboard' && (
+        {/* Dynamic View Canvas: Only this main area scrolls when browsing */}
+        <main className="flex-1 overflow-y-auto bg-slate-50 p-2 sm:p-4">
+          {(activeTab === 'dashboard' || activeTab === 'financials') && (
             <DashboardView
               entities={entities}
               npos={npos}
@@ -853,17 +853,6 @@ export default function App() {
                 </div>
               </div>
             </div>
-          )}
-
-          {activeTab === 'financials' && (
-            <FinancialsView
-              financials={financials}
-              entities={entities}
-              onSelectEntity={id => {
-                setSelectedEntityId(id);
-                setActiveTab('entities');
-              }}
-            />
           )}
 
           {activeTab === 'audits' && (

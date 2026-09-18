@@ -162,54 +162,26 @@ export const ProblemStatementView: React.FC<ProblemStatementViewProps> = ({
   };
 
   return (
-    <div className="p-4 sm:p-6 space-y-6 animate-fadeIn">
-      {/* Top Search & Options Bar */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-3.5 flex flex-wrap items-center justify-between gap-3 shadow-md">
-        <div className="flex flex-wrap items-center gap-2 flex-1 min-w-[280px]">
+    <div className="p-4 sm:p-6 space-y-5 animate-fadeIn">
+      {/* Top Search & Options Bar: Search Bar at the very top, with only Export Statutory and View AGSA options on the right */}
+      <div className="bg-white border border-slate-200 rounded-xl p-3 sm:p-4 flex flex-wrap items-center justify-between gap-3 shadow-xs">
+        <div className="flex items-center gap-2 flex-1 min-w-[260px]">
           <div className="relative flex-1 min-w-[220px]">
             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
             <input
               type="text"
-              placeholder="Search problems, legal provisions (e.g. PFMA 51, 53), entities..."
+              placeholder="Search problem statements, PFMA provisions, or affected public entities..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg pl-9 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+              className="w-full bg-slate-50 border border-slate-300 rounded-lg pl-9 pr-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600"
             />
           </div>
-
-          <select
-            value={selectedSeverity}
-            onChange={e => setSelectedSeverity(e.target.value)}
-            className="bg-slate-950 border border-slate-800 text-xs text-slate-200 rounded-lg px-3 py-1.5 focus:outline-none focus:border-emerald-500"
-          >
-            <option value="All">All Severities</option>
-            <option value="Critical">Critical</option>
-            <option value="High">High</option>
-            <option value="Medium">Medium</option>
-          </select>
-
-          <select
-            value={selectedStatus}
-            onChange={e => setSelectedStatus(e.target.value)}
-            className="bg-slate-950 border border-slate-800 text-xs text-slate-200 rounded-lg px-3 py-1.5 focus:outline-none focus:border-emerald-500"
-          >
-            <option value="All">All Statuses</option>
-            <option value="Critical Risk">Critical Risk</option>
-            <option value="Action Required">Action Required</option>
-            <option value="Under Remediation">Under Remediation</option>
-            <option value="Compliant">Compliant</option>
-          </select>
-
-          {(searchQuery || selectedSeverity !== 'All' || selectedStatus !== 'All') && (
+          {searchQuery && (
             <button
-              onClick={() => {
-                setSearchQuery('');
-                setSelectedSeverity('All');
-                setSelectedStatus('All');
-              }}
-              className="text-xs text-slate-400 hover:text-white px-2 py-1 cursor-pointer"
+              onClick={() => setSearchQuery('')}
+              className="text-xs text-slate-500 hover:text-slate-900 px-2 py-1 cursor-pointer font-medium"
             >
-              Reset
+              Clear
             </button>
           )}
         </div>
@@ -217,24 +189,24 @@ export const ProblemStatementView: React.FC<ProblemStatementViewProps> = ({
         <div className="flex flex-wrap items-center gap-2 shrink-0">
           <button
             onClick={handleExportProblemDossier}
-            className="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 hover:border-slate-600 px-3.5 py-2 rounded-lg text-xs font-semibold flex items-center gap-2 transition-colors shadow cursor-pointer"
+            className="bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 px-3.5 py-2 rounded-lg text-xs font-semibold flex items-center gap-2 transition-colors shadow-xs cursor-pointer"
             title="Download official Parliamentary Problem Statement Register"
           >
-            <Download className="w-4 h-4 text-emerald-400" />
+            <Download className="w-4 h-4 text-blue-700" />
             <span>Export Statutory Register (CSV)</span>
           </button>
 
           <button
             onClick={() => onNavigateTab('audits')}
-            className="bg-emerald-700 hover:bg-emerald-600 text-white px-3.5 py-2 rounded-lg text-xs font-semibold flex items-center gap-2 transition-colors shadow cursor-pointer"
+            className="bg-blue-800 hover:bg-blue-700 text-white px-3.5 py-2 rounded-lg text-xs font-semibold flex items-center gap-2 transition-colors shadow-xs cursor-pointer"
           >
-            <Scale className="w-4 h-4" />
+            <Scale className="w-4 h-4 text-white" />
             <span>View AGSA Audit Findings</span>
           </button>
         </div>
       </div>
 
-      {/* Problem Cards List */}
+      {/* Problem Cards List - Clean White Dashboard Cards with Consistent Status Colors */}
       <div className="space-y-4">
         {filteredProblems.map(problem => {
           const isExpanded = activeProblemId === problem.id;
@@ -243,40 +215,40 @@ export const ProblemStatementView: React.FC<ProblemStatementViewProps> = ({
           return (
             <div 
               key={problem.id}
-              className={`bg-slate-900 border rounded-xl transition-all shadow-md overflow-hidden ${
+              className={`bg-white border rounded-xl transition-all shadow-xs overflow-hidden ${
                 isCritical 
-                  ? 'border-rose-900/50 hover:border-rose-500/60' 
-                  : 'border-slate-800 hover:border-slate-700'
+                  ? 'border-rose-300 hover:border-rose-400' 
+                  : 'border-slate-200 hover:border-blue-300'
               }`}
             >
-              {/* Header Bar */}
-              <div className="p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-950/40">
+              {/* Card Header Bar */}
+              <div className="p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-50/60 border-b border-slate-100">
                 <div className="space-y-1.5 flex-1">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="bg-slate-800 text-amber-300 font-mono text-xs px-2 py-0.5 rounded font-bold border border-slate-700">
+                    <span className="bg-blue-50 text-blue-800 font-mono text-xs px-2.5 py-0.5 rounded font-bold border border-blue-200">
                       {problem.code}
                     </span>
-                    <span className={`text-xs px-2 py-0.5 rounded-full font-semibold border ${
-                      problem.severity === 'Critical' ? 'bg-rose-500/20 text-rose-300 border-rose-500/30' :
-                      problem.severity === 'High' ? 'bg-amber-500/20 text-amber-300 border-amber-500/30' :
-                      'bg-sky-500/20 text-sky-300 border-sky-500/30'
+                    <span className={`text-xs px-2.5 py-0.5 rounded-full font-semibold border ${
+                      problem.severity === 'Critical' ? 'bg-rose-50 text-rose-700 border-rose-200' :
+                      problem.severity === 'High' ? 'bg-amber-50 text-amber-800 border-amber-200' :
+                      'bg-blue-50 text-blue-800 border-blue-200'
                     }`}>
                       {problem.severity} Severity
                     </span>
-                    <span className={`text-xs px-2 py-0.5 rounded-full font-semibold border ${
-                      problem.status === 'Critical Risk' ? 'bg-rose-950 text-rose-300 border-rose-700' :
-                      problem.status === 'Action Required' ? 'bg-amber-950 text-amber-300 border-amber-700' :
-                      problem.status === 'Under Remediation' ? 'bg-sky-950 text-sky-300 border-sky-700' :
-                      'bg-emerald-950 text-emerald-300 border-emerald-700'
+                    <span className={`text-xs px-2.5 py-0.5 rounded-full font-semibold border ${
+                      problem.status === 'Critical Risk' ? 'bg-rose-100 text-rose-800 border-rose-300' :
+                      problem.status === 'Action Required' ? 'bg-amber-100 text-amber-800 border-amber-300' :
+                      problem.status === 'Under Remediation' ? 'bg-sky-100 text-sky-800 border-sky-300' :
+                      'bg-emerald-100 text-emerald-800 border-emerald-300'
                     }`}>
                       {problem.status}
                     </span>
-                    <span className="text-[11px] text-slate-400 bg-slate-800/80 px-2 py-0.5 rounded border border-slate-700/60 font-mono">
+                    <span className="text-[11px] text-slate-600 bg-white px-2 py-0.5 rounded border border-slate-200 font-mono">
                       {problem.legalProvision}
                     </span>
                   </div>
 
-                  <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
+                  <h3 className="text-base font-bold text-slate-900 tracking-tight">
                     {problem.title}
                   </h3>
                 </div>
@@ -284,16 +256,16 @@ export const ProblemStatementView: React.FC<ProblemStatementViewProps> = ({
                 {/* Progress & Quick Actions */}
                 <div className="flex items-center gap-3 shrink-0">
                   <div className="text-right">
-                    <div className="text-xs text-slate-400">Remediation</div>
-                    <div className="text-base font-black text-emerald-400 font-mono">
+                    <div className="text-[11px] text-slate-500 font-medium">Remediation</div>
+                    <div className="text-base font-black text-blue-800 font-mono">
                       {problem.remediationProgress}%
                     </div>
                   </div>
 
-                  <div className="w-20 bg-slate-800 rounded-full h-2 overflow-hidden">
+                  <div className="w-20 bg-slate-200 rounded-full h-2 overflow-hidden">
                     <div 
                       className={`h-full rounded-full ${
-                        problem.remediationProgress >= 80 ? 'bg-emerald-500' :
+                        problem.remediationProgress >= 80 ? 'bg-emerald-600' :
                         problem.remediationProgress >= 50 ? 'bg-amber-500' :
                         'bg-rose-500'
                       }`}
@@ -303,7 +275,7 @@ export const ProblemStatementView: React.FC<ProblemStatementViewProps> = ({
 
                   <button
                     onClick={() => setActiveProblemId(isExpanded ? null : problem.id)}
-                    className="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors"
+                    className="bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-xs cursor-pointer"
                   >
                     {isExpanded ? 'Hide Details' : 'Resolve & Inspect'}
                     <ChevronRight className={`w-3.5 h-3.5 transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
@@ -312,43 +284,43 @@ export const ProblemStatementView: React.FC<ProblemStatementViewProps> = ({
               </div>
 
               {/* Verbatim Statement Extract Box */}
-              <div className="px-4 sm:px-5 py-3 bg-slate-950/80 border-t border-b border-slate-800/80">
-                <div className="text-[11px] font-semibold text-amber-400 uppercase tracking-wider mb-1 flex items-center gap-1.5">
-                  <FileText className="w-3.5 h-3.5" />
-                  Verbatim Statement Description:
+              <div className="px-4 sm:px-5 py-3 bg-blue-50/40 border-b border-slate-100">
+                <div className="text-[11px] font-bold text-blue-900 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                  <FileText className="w-3.5 h-3.5 text-blue-700" />
+                  Statutory Problem Directive Extract:
                 </div>
-                <blockquote className="text-xs sm:text-sm text-slate-300 italic border-l-2 border-amber-500/60 pl-3 leading-relaxed">
+                <blockquote className="text-xs text-slate-700 italic border-l-2 border-blue-600 pl-3 leading-relaxed">
                   "{problem.verbatimStatement}"
                 </blockquote>
               </div>
 
               {/* Summary Stats Row */}
-              <div className="px-4 sm:px-5 py-3 grid grid-cols-1 md:grid-cols-3 gap-3 text-xs bg-slate-900">
+              <div className="px-4 sm:px-5 py-3 grid grid-cols-1 md:grid-cols-3 gap-3 text-xs bg-white">
                 <div>
-                  <span className="text-slate-400 block text-[11px]">Primary Risk Exposure:</span>
-                  <span className="text-rose-300 font-medium">{problem.primaryRisk}</span>
+                  <span className="text-slate-500 block text-[11px]">Primary Risk Exposure:</span>
+                  <span className="text-rose-700 font-semibold">{problem.primaryRisk}</span>
                 </div>
                 <div>
-                  <span className="text-slate-400 block text-[11px]">Empirical Data Finding:</span>
-                  <span className="text-slate-200 font-medium">{problem.impactSummary}</span>
+                  <span className="text-slate-500 block text-[11px]">Empirical Data Finding:</span>
+                  <span className="text-slate-800 font-medium">{problem.impactSummary}</span>
                 </div>
                 <div>
-                  <span className="text-slate-400 block text-[11px]">Affected Public Entities / Units:</span>
-                  <span className="text-amber-300 font-medium">{problem.affectedEntityNames.join(', ')}</span>
+                  <span className="text-slate-500 block text-[11px]">Affected Public Entities / Units:</span>
+                  <span className="text-blue-900 font-medium">{problem.affectedEntityNames.join(', ')}</span>
                 </div>
               </div>
 
               {/* Detailed Breakdown (When Expanded) */}
               {isExpanded && (
-                <div className="p-4 sm:p-5 border-t border-slate-800 bg-slate-900/90 space-y-5 animate-fadeIn">
+                <div className="p-4 sm:p-5 border-t border-slate-200 bg-slate-50/50 space-y-5 animate-fadeIn">
                   {/* Remediation Milestones Checklist */}
                   <div>
                     <div className="flex items-center justify-between mb-2.5">
-                      <h4 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                        <CheckSquare className="w-4 h-4 text-emerald-400" />
+                      <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2">
+                        <CheckSquare className="w-4 h-4 text-blue-700" />
                         Corrective Action Plan (CAP) Remediation Milestones
                       </h4>
-                      <span className="text-[11px] text-slate-400">
+                      <span className="text-[11px] text-slate-500">
                         {problem.remediationSteps.filter(s => s.isCompleted).length} of {problem.remediationSteps.length} Milestones Complete
                       </span>
                     </div>
@@ -360,35 +332,35 @@ export const ProblemStatementView: React.FC<ProblemStatementViewProps> = ({
                           onClick={() => handleToggleStep(problem, step.id)}
                           className={`p-3 rounded-lg border flex items-start justify-between gap-3 cursor-pointer transition-colors ${
                             step.isCompleted 
-                              ? 'bg-emerald-950/20 border-emerald-800/40 text-slate-300' 
-                              : 'bg-slate-950 border-slate-800 hover:border-slate-700 text-white'
+                              ? 'bg-emerald-50/50 border-emerald-200 text-slate-700' 
+                              : 'bg-white border-slate-200 hover:border-blue-300 text-slate-900'
                           }`}
                         >
                           <div className="flex items-start gap-3">
                             <div className="mt-0.5">
                               {step.isCompleted ? (
-                                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                               ) : (
-                                <div className="w-4 h-4 rounded-full border-2 border-slate-600"></div>
+                                <div className="w-4 h-4 rounded-full border-2 border-slate-400"></div>
                               )}
                             </div>
                             <div>
-                              <div className={`text-xs font-bold ${step.isCompleted ? 'line-through text-slate-400' : 'text-slate-200'}`}>
+                              <div className={`text-xs font-bold ${step.isCompleted ? 'line-through text-slate-500' : 'text-slate-900'}`}>
                                 {step.title}
                               </div>
-                              <div className="text-[11px] text-slate-400 mt-0.5">
+                              <div className="text-[11px] text-slate-600 mt-0.5">
                                 {step.notes}
                               </div>
-                              <div className="text-[10px] text-slate-400 mt-1 flex items-center gap-2">
-                                <span>Assigned Authority: <strong className="text-slate-300">{step.assignedAuthority}</strong></span>
+                              <div className="text-[10px] text-slate-500 mt-1 flex items-center gap-2">
+                                <span>Assigned Authority: <strong className="text-slate-700">{step.assignedAuthority}</strong></span>
                                 <span>•</span>
-                                <span>Target Due: <strong className="text-amber-300">{step.targetDate}</strong></span>
+                                <span>Target Due: <strong className="text-blue-900">{step.targetDate}</strong></span>
                               </div>
                             </div>
                           </div>
 
-                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${
-                            step.isCompleted ? 'bg-emerald-500/20 text-emerald-300' : 'bg-slate-800 text-slate-400'
+                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${
+                            step.isCompleted ? 'bg-emerald-100 text-emerald-800 border-emerald-300' : 'bg-slate-100 text-slate-600 border-slate-200'
                           }`}>
                             {step.isCompleted ? 'Completed' : 'Pending'}
                           </span>
@@ -398,15 +370,15 @@ export const ProblemStatementView: React.FC<ProblemStatementViewProps> = ({
                   </div>
 
                   {/* System Mitigations Live in PERS */}
-                  <div className="bg-slate-950 border border-slate-800 rounded-lg p-3.5">
-                    <h5 className="text-xs font-bold text-amber-400 uppercase tracking-wider mb-2 flex items-center gap-2">
-                      <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                  <div className="bg-white border border-slate-200 rounded-lg p-3.5 shadow-xs">
+                    <h5 className="text-xs font-bold text-blue-900 uppercase tracking-wider mb-2 flex items-center gap-2">
+                      <Sparkles className="w-3.5 h-3.5 text-blue-700" />
                       Active PERS Digital Mitigations & Safeguards
                     </h5>
-                    <ul className="space-y-1.5 text-xs text-slate-300">
+                    <ul className="space-y-1.5 text-xs text-slate-700">
                       {problem.directMitigations.map((mitigation, idx) => (
                         <li key={idx} className="flex items-start gap-2">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 shrink-0"></span>
+                          <span className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-1.5 shrink-0"></span>
                           <span>{mitigation}</span>
                         </li>
                       ))}
@@ -415,8 +387,8 @@ export const ProblemStatementView: React.FC<ProblemStatementViewProps> = ({
 
                   {/* Impacted Entities Drilldown Buttons */}
                   <div>
-                    <h5 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2 flex items-center gap-2">
-                      <Building2 className="w-3.5 h-3.5 text-slate-400" />
+                    <h5 className="text-xs font-bold text-slate-800 uppercase tracking-wider mb-2 flex items-center gap-2">
+                      <Building2 className="w-3.5 h-3.5 text-slate-500" />
                       Target Impacted Entities & Remediation Channels
                     </h5>
                     <div className="flex flex-wrap gap-2">
@@ -430,17 +402,17 @@ export const ProblemStatementView: React.FC<ProblemStatementViewProps> = ({
                               onSelectEntity(ent.id);
                               onNavigateTab('entities');
                             }}
-                            className="bg-slate-950 hover:bg-slate-800 border border-slate-700 hover:border-amber-500/60 px-3 py-1.5 rounded-lg text-xs text-slate-200 flex items-center gap-2 transition-colors group"
+                            className="bg-white hover:bg-slate-50 border border-slate-300 hover:border-blue-400 px-3 py-1.5 rounded-lg text-xs text-slate-800 flex items-center gap-2 transition-colors group cursor-pointer shadow-xs"
                           >
-                            <span className="font-bold text-white group-hover:text-amber-400">{ent.acronym}</span>
-                            <span className={`text-[10px] px-1.5 py-0.2 rounded font-mono ${
-                              ent.riskLevel === 'High' ? 'bg-rose-500/20 text-rose-300' :
-                              ent.riskLevel === 'Medium' ? 'bg-amber-500/20 text-amber-300' :
-                              'bg-emerald-500/20 text-emerald-300'
+                            <span className="font-bold text-blue-900 group-hover:text-blue-700">{ent.acronym}</span>
+                            <span className={`text-[10px] px-1.5 py-0.2 rounded font-mono border ${
+                              ent.riskLevel === 'High' ? 'bg-rose-50 text-rose-700 border-rose-200' :
+                              ent.riskLevel === 'Medium' ? 'bg-amber-50 text-amber-800 border-amber-200' :
+                              'bg-emerald-50 text-emerald-800 border-emerald-200'
                             }`}>
                               Risk: {ent.riskScore}/100
                             </span>
-                            <ExternalLink className="w-3 h-3 text-slate-400 group-hover:text-amber-400" />
+                            <ExternalLink className="w-3 h-3 text-slate-400 group-hover:text-blue-700" />
                           </button>
                         );
                       })}
@@ -448,15 +420,15 @@ export const ProblemStatementView: React.FC<ProblemStatementViewProps> = ({
                   </div>
 
                   {/* Operational Action Toolbar */}
-                  <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-800">
-                    <div className="text-[11px] text-slate-400">
-                      Last Statutory Review: <strong>{problem.lastReviewDate}</strong> • PFMA Provision: <strong className="text-slate-300">{problem.legalProvision}</strong>
+                  <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-200">
+                    <div className="text-[11px] text-slate-500">
+                      Last Statutory Review: <strong>{problem.lastReviewDate}</strong> • PFMA Provision: <strong className="text-slate-800">{problem.legalProvision}</strong>
                     </div>
 
                     <div className="flex flex-wrap items-center gap-2">
                       <button
                         onClick={() => handleOpenDirectiveModal(problem)}
-                        className="bg-rose-600 hover:bg-rose-500 text-white font-bold px-3.5 py-1.5 rounded-lg text-xs flex items-center gap-1.5 transition-colors shadow"
+                        className="bg-rose-600 hover:bg-rose-700 text-white font-bold px-3.5 py-1.5 rounded-lg text-xs flex items-center gap-1.5 transition-colors shadow-xs cursor-pointer"
                       >
                         <Send className="w-3.5 h-3.5" />
                         Issue Section 38 Statutory Directive
@@ -465,9 +437,9 @@ export const ProblemStatementView: React.FC<ProblemStatementViewProps> = ({
                       {problem.category === 'Financial Mismanagement & UIFW' && (
                         <button
                           onClick={() => onNavigateTab('financials')}
-                          className="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors"
+                          className="bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
                         >
-                          <Coins className="w-3.5 h-3.5 text-amber-400" />
+                          <Coins className="w-3.5 h-3.5 text-blue-700" />
                           Inspect Financial Reconciliation
                         </button>
                       )}
@@ -475,9 +447,9 @@ export const ProblemStatementView: React.FC<ProblemStatementViewProps> = ({
                       {problem.category === 'Late Statutory Submissions' && (
                         <button
                           onClick={() => onNavigateTab('documents')}
-                          className="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors"
+                          className="bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
                         >
-                          <FileCheck2 className="w-3.5 h-3.5 text-emerald-400" />
+                          <FileCheck2 className="w-3.5 h-3.5 text-blue-700" />
                           Review Pending Submissions
                         </button>
                       )}
@@ -485,9 +457,9 @@ export const ProblemStatementView: React.FC<ProblemStatementViewProps> = ({
                       {problem.category === 'Recurring AGSA Audit Findings' && (
                         <button
                           onClick={() => onNavigateTab('audits')}
-                          className="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors"
+                          className="bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
                         >
-                          <Scale className="w-3.5 h-3.5 text-sky-400" />
+                          <Scale className="w-3.5 h-3.5 text-blue-700" />
                           Track Material Irregularities
                         </button>
                       )}
@@ -500,35 +472,35 @@ export const ProblemStatementView: React.FC<ProblemStatementViewProps> = ({
         })}
 
         {filteredProblems.length === 0 && (
-          <div className="bg-slate-900 border border-slate-800 rounded-xl p-8 text-center text-slate-400 space-y-2">
-            <AlertTriangle className="w-8 h-8 text-amber-400 mx-auto" />
-            <div className="text-base font-bold text-white">No Matching Statement Problems Found</div>
-            <p className="text-xs">Adjust your search or filter parameters to view other statutory challenges.</p>
+          <div className="bg-white border border-slate-200 rounded-xl p-8 text-center text-slate-500 space-y-2 shadow-xs">
+            <AlertTriangle className="w-8 h-8 text-amber-500 mx-auto" />
+            <div className="text-base font-bold text-slate-800">No Matching Statement Problems Found</div>
+            <p className="text-xs">Adjust your search parameters to view other statutory challenges.</p>
           </div>
         )}
       </div>
 
       {/* Section 38 Statutory Directive Dispatch Modal */}
       {directiveModalProblem && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-fadeIn">
-          <div className="bg-slate-900 border-2 border-rose-500/80 rounded-xl w-full max-w-lg p-5 sm:p-6 shadow-2xl space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-fadeIn">
+          <div className="bg-white border border-slate-300 rounded-2xl w-full max-w-lg p-5 sm:p-6 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-200">
               <div className="flex items-center gap-2">
-                <div className="p-2 bg-rose-500/20 text-rose-400 rounded-lg">
+                <div className="p-2 bg-rose-100 text-rose-700 rounded-lg">
                   <ShieldAlert className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-white">
+                  <h3 className="text-base font-bold text-slate-900">
                     Issue Formal Section 38 Statutory Directive
                   </h3>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-slate-500">
                     Republic of South Africa • PFMA Act 1 of 1999 Section 38(1)(j)
                   </p>
                 </div>
               </div>
               <button
                 onClick={() => setDirectiveModalProblem(null)}
-                className="text-slate-400 hover:text-white p-1"
+                className="text-slate-400 hover:text-slate-700 p-1 cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -536,31 +508,31 @@ export const ProblemStatementView: React.FC<ProblemStatementViewProps> = ({
 
             {isDirectiveSubmitted ? (
               <div className="py-8 text-center space-y-2">
-                <CheckCircle2 className="w-12 h-12 text-emerald-400 mx-auto animate-bounce" />
-                <h4 className="text-base font-bold text-white">Statutory Directive Dispatched Successfully</h4>
-                <p className="text-xs text-slate-300">
+                <CheckCircle2 className="w-12 h-12 text-emerald-600 mx-auto animate-bounce" />
+                <h4 className="text-base font-bold text-slate-900">Statutory Directive Dispatched Successfully</h4>
+                <p className="text-xs text-slate-600">
                   Logged in official PERS audit ledger. Notification dispatched to Accounting Authority and Auditor-General.
                 </p>
               </div>
             ) : (
               <div className="space-y-3.5 text-xs">
                 <div>
-                  <label className="block text-slate-300 font-semibold mb-1">
+                  <label className="block text-slate-700 font-semibold mb-1">
                     Problem Code & Statutory Defect:
                   </label>
-                  <div className="bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-amber-300 font-mono">
+                  <div className="bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-blue-900 font-mono font-bold">
                     {directiveModalProblem.code} - {directiveModalProblem.title}
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-semibold mb-1">
+                  <label className="block text-slate-700 font-semibold mb-1">
                     Target Accounting Authority / Public Entity:
                   </label>
                   <select
                     value={selectedDirectiveEntity}
                     onChange={e => setSelectedDirectiveEntity(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 text-white rounded-lg p-2 focus:outline-none focus:border-rose-500"
+                    className="w-full bg-slate-50 border border-slate-300 text-slate-900 rounded-lg p-2 focus:outline-none focus:border-blue-600"
                   >
                     {directiveModalProblem.affectedEntityNames.map((name, i) => (
                       <option key={i} value={name}>{name}</option>
@@ -570,19 +542,19 @@ export const ProblemStatementView: React.FC<ProblemStatementViewProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-semibold mb-1">
+                  <label className="block text-slate-700 font-semibold mb-1">
                     Legal Directive Wording & Remediation Demands:
                   </label>
                   <textarea
                     rows={4}
                     value={directiveNotes}
                     onChange={e => setDirectiveNotes(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 text-white rounded-lg p-2.5 focus:outline-none focus:border-rose-500 font-mono text-[11px]"
+                    className="w-full bg-slate-50 border border-slate-300 text-slate-900 rounded-lg p-2.5 focus:outline-none focus:border-blue-600 font-mono text-[11px]"
                   ></textarea>
                 </div>
 
-                <div className="bg-rose-950/30 border border-rose-800/40 rounded-lg p-2.5 text-rose-300 text-[11px] flex items-start gap-2">
-                  <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+                <div className="bg-rose-50 border border-rose-200 rounded-lg p-2.5 text-rose-800 text-[11px] flex items-start gap-2">
+                  <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
                   <div>
                     <strong>Legal Notice:</strong> This directive constitutes a formal administrative action under PFMA Section 38. Failure to comply within 7 days empowers the Director-General to withhold grant disbursements.
                   </div>
@@ -592,14 +564,14 @@ export const ProblemStatementView: React.FC<ProblemStatementViewProps> = ({
                   <button
                     type="button"
                     onClick={() => setDirectiveModalProblem(null)}
-                    className="bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-lg font-semibold"
+                    className="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-lg font-semibold cursor-pointer"
                   >
                     Cancel
                   </button>
                   <button
                     type="button"
                     onClick={handleSubmitDirective}
-                    className="bg-rose-600 hover:bg-rose-500 text-white px-4 py-2 rounded-lg font-bold flex items-center gap-1.5 shadow"
+                    className="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-lg font-bold flex items-center gap-1.5 shadow-xs cursor-pointer"
                   >
                     <Send className="w-3.5 h-3.5" />
                     Dispatch Directive & Notify Authority

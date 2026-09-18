@@ -79,18 +79,18 @@ export const LoginView: React.FC<LoginViewProps> = ({ users, onLogin }) => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-200 text-slate-900 flex flex-col justify-between font-sans selection:bg-emerald-700 selection:text-white">
+    <div className="min-h-screen bg-slate-100 text-slate-900 flex flex-col justify-between font-sans selection:bg-blue-700 selection:text-white">
       {/* South Africa National Colours Top Stripe */}
       <div className="h-1.5 w-full bg-gradient-to-r from-emerald-600 via-amber-400 via-red-600 to-blue-700 shadow-sm"></div>
 
       {/* Top Header Bar */}
-      <header className="px-4 sm:px-8 py-3 bg-emerald-950 text-white border-b border-emerald-800 flex items-center justify-between shadow-md">
+      <header className="px-4 sm:px-8 py-3 bg-blue-900 text-white border-b border-blue-800 flex items-center justify-between shadow-md">
         <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 rounded-lg bg-amber-400 text-emerald-950 flex items-center justify-center font-black text-xs shadow-inner">
+          <div className="w-8 h-8 rounded-lg bg-amber-400 text-blue-950 flex items-center justify-center font-black text-xs shadow-inner">
             DSAC
           </div>
           <div>
-            <div className="text-[10px] uppercase tracking-widest text-emerald-300 font-semibold">
+            <div className="text-[10px] uppercase tracking-widest text-blue-200 font-semibold">
               Republic of South Africa
             </div>
             <div className="text-xs sm:text-sm font-bold tracking-tight text-white">
@@ -100,11 +100,11 @@ export const LoginView: React.FC<LoginViewProps> = ({ users, onLogin }) => {
         </div>
 
         <div className="flex items-center gap-2 text-xs">
-          <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-emerald-900 border border-emerald-700 text-emerald-200 text-[11px]">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+          <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-blue-800 border border-blue-700 text-blue-200 text-[11px]">
+            <ShieldCheck className="w-3.5 h-3.5 text-blue-300" />
             Official Government Intranet
           </span>
-          <span className="text-[11px] font-mono text-emerald-300">
+          <span className="text-[11px] font-mono text-blue-200 font-semibold">
             PFMA Act 1 of 1999
           </span>
         </div>
@@ -112,10 +112,10 @@ export const LoginView: React.FC<LoginViewProps> = ({ users, onLogin }) => {
 
       {/* Main Login Canvas */}
       <main className="flex-1 flex items-center justify-center p-4 sm:p-6 my-auto">
-        <div className="max-w-md w-full bg-white border border-slate-300 rounded-2xl shadow-xl overflow-hidden animate-fadeIn">
+        <div className="max-w-md w-full bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden animate-fadeIn">
           {/* Top Panel Banner */}
-          <div className="bg-emerald-950 text-white p-6 border-b border-emerald-800">
-            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-emerald-900/90 border border-emerald-700 text-emerald-200 text-[11px] font-semibold mb-3">
+          <div className="bg-blue-900 text-white p-6 border-b border-blue-800">
+            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-blue-800/90 border border-blue-700 text-blue-200 text-[11px] font-semibold mb-3">
               <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
               Secure Statutory Gateway
             </div>
@@ -123,7 +123,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ users, onLogin }) => {
             <h1 className="text-xl font-bold tracking-tight text-white">
               PERS Official Sign-In
             </h1>
-            <p className="text-xs text-emerald-300/90 mt-1">
+            <p className="text-xs text-blue-200/90 mt-1">
               Public Entities Reporting System • 26 Entities & 6 Funded NPOs
             </p>
           </div>
@@ -148,7 +148,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ users, onLogin }) => {
                   onClick={() => handleSelectPortal('manager')}
                   className={`py-2 px-3 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                     selectedPortal === 'manager'
-                      ? 'bg-slate-900 text-white shadow-sm'
+                      ? 'bg-blue-800 text-white shadow-sm'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                   }`}
                 >
@@ -161,7 +161,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ users, onLogin }) => {
                   onClick={() => handleSelectPortal('entity_clerk')}
                   className={`py-2 px-3 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                     selectedPortal === 'entity_clerk'
-                      ? 'bg-emerald-800 text-white shadow-sm'
+                      ? 'bg-blue-800 text-white shadow-sm'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                   }`}
                 >
@@ -174,25 +174,25 @@ export const LoginView: React.FC<LoginViewProps> = ({ users, onLogin }) => {
             {/* Portal Role Description Banner */}
             <div className={`p-3 rounded-xl border text-xs ${
               selectedPortal === 'manager'
-                ? 'bg-slate-50 border-slate-200 text-slate-800'
-                : 'bg-emerald-50 border-emerald-200 text-emerald-950'
+                ? 'bg-blue-50 border-blue-200 text-blue-950'
+                : 'bg-slate-50 border-slate-200 text-slate-900'
             }`}>
               <div className="font-bold flex items-center gap-1.5">
                 {selectedPortal === 'manager' ? (
                   <>
-                    <ShieldCheck className="w-4 h-4 text-slate-800" />
+                    <ShieldCheck className="w-4 h-4 text-blue-800" />
                     <span>Executive Oversight Profile</span>
                   </>
                 ) : (
                   <>
-                    <Building2 className="w-4 h-4 text-emerald-700" />
+                    <Building2 className="w-4 h-4 text-blue-700" />
                     <span>Institutional Submissions Profile</span>
                   </>
                 )}
               </div>
               <p className="text-[11px] text-slate-600 mt-1 leading-relaxed">
                 {selectedPortal === 'manager'
-                  ? 'Access funding reviews & approvals, disbursement payments, audit expenditure graphs, and statutory account freeze controls.'
+                  ? 'Access funding reviews & approvals, disbursement payments, audit expenditure graphs, and statutory oversight.'
                   : 'Access institutional reports, submit funding requests & appeals, update schedules, and upload statutory deliverables.'}
               </p>
             </div>
@@ -211,7 +211,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ users, onLogin }) => {
                     value={emailOrWorkerId}
                     onChange={e => setEmailOrWorkerId(e.target.value)}
                     placeholder="worker@dsac.gov.za or PERS-RSA-1142"
-                    className="w-full bg-slate-50 border border-slate-300 rounded-xl pl-9 pr-3 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-emerald-600 focus:bg-white transition-all font-mono"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl pl-9 pr-3 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-blue-600 focus:bg-white transition-all font-mono"
                   />
                 </div>
               </div>
@@ -221,7 +221,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ users, onLogin }) => {
                   <label className="block text-xs font-bold text-slate-700">
                     Official Security Passcode / PIN
                   </label>
-                  <span className="text-[11px] text-emerald-800 font-medium cursor-default">
+                  <span className="text-[11px] text-blue-800 font-medium cursor-default">
                     PFMA Clearance Key
                   </span>
                 </div>
@@ -233,7 +233,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ users, onLogin }) => {
                     value={passwordInput}
                     onChange={e => setPasswordInput(e.target.value)}
                     placeholder="••••••••••••"
-                    className="w-full bg-slate-50 border border-slate-300 rounded-xl pl-9 pr-3 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-emerald-600 focus:bg-white transition-all font-mono"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl pl-9 pr-3 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-blue-600 focus:bg-white transition-all font-mono"
                   />
                 </div>
               </div>
@@ -242,11 +242,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ users, onLogin }) => {
                 <button
                   type="submit"
                   disabled={isAuthenticating}
-                  className={`w-full py-3 px-4 text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 shadow-md transition-all disabled:opacity-50 cursor-pointer ${
-                    selectedPortal === 'manager'
-                      ? 'bg-slate-900 hover:bg-slate-800'
-                      : 'bg-emerald-800 hover:bg-emerald-900'
-                  }`}
+                  className="w-full py-3 px-4 text-white bg-blue-800 hover:bg-blue-900 rounded-xl font-bold text-xs flex items-center justify-center gap-2 shadow-md transition-all disabled:opacity-50 cursor-pointer"
                 >
                   {isAuthenticating ? (
                     <span>Verifying Credentials & Clearance...</span>
@@ -262,7 +258,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ users, onLogin }) => {
 
             <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl text-[11px] text-slate-500 space-y-1">
               <div className="font-semibold text-slate-700 flex items-center gap-1.5">
-                <KeyRound className="w-3.5 h-3.5 text-emerald-700" />
+                <KeyRound className="w-3.5 h-3.5 text-blue-700" />
                 <span>Session Privacy & Security Notice:</span>
               </div>
               <p>
